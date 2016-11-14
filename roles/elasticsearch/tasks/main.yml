@@ -1,0 +1,27 @@
+---
+- name: Install elasticsearch
+  docker:
+    name: elasticsearch
+    image: elasticsearch:2
+    ports:
+      - 9200:9200
+    volumes:
+      - /data/elasticsearch:/usr/share/elasticsearch/data
+    state: running
+    restart_policy: unless-stopped
+  register: container_result
+  tags: [elasticsearch]
+
+- pause: seconds=15
+  when: container_result|changed
+  tags: [elasticsearch]
+
+- name: Template is defined
+  uri:
+    url: "http://{{ ansible_host }}:9200/_template/default"
+    method: PUT
+    body: "{{ lookup('file','template.json') }}"
+    body_format: json
+    HEADER_Content-Type: "application/json"
+  when: container_result|changed
+  tags: [elasticsearch]

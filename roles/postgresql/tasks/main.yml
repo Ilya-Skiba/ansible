@@ -1,0 +1,38 @@
+---
+- name: Add PostgreSQL repository
+  yum: name=https://download.postgresql.org/pub/repos/yum/{{ postgresql_version }}/redhat/rhel-7-x86_64/pgdg-centos96-{{ postgresql_version }}-3.noarch.rpm state=present
+  
+- name: install selinux bindings 
+  yum: name=libselinux-python state=present 
+
+- name: Install PostgreSQL
+  yum: name=postgresql{{ postgresql_yum_version }}-{{ item }} state=present
+  with_items: 
+    - devel
+    - server
+
+- name: Initiate database
+  command: /usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ postgresql_yum_version }}-setup initdb creates={{postgresql_conf_directory}}/postgresql.conf
+
+- name: PostgreSQL | Update configuration - pt. 1 (pg_hba.conf)
+  template:
+    src: pg_hba.conf.j2
+    dest: "{{postgresql_conf_directory}}/pg_hba.conf"
+    owner: "{{ postgresql_service_user }}"
+    group: "{{ postgresql_service_group }}"
+    mode: 0640
+  register: postgresql_configuration_pt1
+  notify:
+    - restart PostgreSQL
+
+- name: PostgreSQL | Update configuration - pt. 2 (postgresql.conf)
+  template:
+    src: "postgresql.conf.j2"
+    # if using pgtune, save the template to ".untuned"
+    dest: "{{postgresql_conf_directory}}/postgresql.conf"
+    owner: "{{ postgresql_service_user }}"
+    group: "{{ postgresql_service_group }}"
+    mode: 0640
+  register: postgresql_configuration_pt2
+  notify:
+    - restart PostgreSQL

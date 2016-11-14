@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - postgresql
+    - postgresql-db
+  
+  vars_files: ["vars/db-config.yml"]

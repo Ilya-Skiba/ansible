@@ -1,0 +1,18 @@
+---
+postgresql_version: 9.6
+postgresql_yum_version: 96
+postgresql_conf_directory: /var/lib/pgsql/{{postgresql_version}}/data
+postgresql_service_user: postgres
+postgresql_service_group: postgres
+postgres_listen_addresses: ['*']
+postgres_port: 5432
+
+postgres_allowed_hosts: 
+  - type: host
+    database: consult
+    user: consult
+    hosts:
+      - name: tomcat-client
+        ip: 127.0.0.1
+      - name: tomcat-admin
+        ip: 127.0.0.1

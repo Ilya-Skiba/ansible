@@ -1,0 +1,26 @@
+---
+
+- name: install postgresql dependencies
+  yum: name={{ item }} state=installed
+  with_items:
+    - python-psycopg2
+
+- name: install psycopg2 python module
+  pip: name=psycopg2
+
+- name: create admin user
+  command: 
+    - createuser -s -l -d -W c_admin 
+    - psql -c "ALTER USER c_admin WITH PASSWORD 'hfsjkh3kj2h3';"
+  become: yes
+  become_user: postgres
+
+- name: create db user
+  postgresql_user: db=consult name=consult priv=ALL/products:ALL password=consult login_user=c_admin login_password=hfsjkh3kj2h3
+
+- name: create db
+  # Create a new database with name "consult"
+  postgresql_db:  name=consult
+                  owner=consult
+                  encoding='UTF-8'
+

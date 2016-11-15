@@ -5,4 +5,18 @@
   roles:
     - common
     - java
-    - elasticsearch
+    - { role: elasticsearch, es_instance_name: "node1", 
+      es_config: {
+        node.name: "node1", 
+        cluster.name: "custom-cluster",
+        discovery.zen.ping.unicast.hosts: "localhost:9301",
+        discovery.zen.ping.multicast.enabled: false } 
+      }
+  vars:
+    es_scripts: true
+    es_templates: false
+    es_version_lock: false
+    es_heap_size: 1g
+    es_plugins:
+     - plugin: http://dl.bintray.com/content/imotov/elasticsearch-plugins/org/elasticsearch/elasticsearch-analysis-morphology/2.4.1/elasticsearch-analysis-morphology-2.4.1.zip
+       version: latest

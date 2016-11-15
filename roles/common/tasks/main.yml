@@ -9,3 +9,4 @@
     - tree
     - sysstat
     - python-pip
+    - wget

@@ -1,21 +1,18 @@
 ---
-vars:
-    download_url: http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
-    download_folder: /opt
-    java_name: "{{download_folder}}/jdk1.8.0_112_ansiblecheck"
-    java_archive: "{{download_folder}}/jdk-8u5-linux-x64.tar.gz"
-tasks:
-  - name: Download Java
-    command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
+- name: include vars
+  include_vars: "java-config.yml"
 
-  - name: Unpack archive
-    command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
+- name: Download Java
+  get_url:
+    url: "{{ download_url }}"
+    dest: "{{ java_archive }}"
+    headers: 'Cookie: oraclelicense=accept-securebackup-cookie'
 
-  - name: Fix ownership
-    file: state=directory path={{java_name}} owner=root group=root recurse=yes
+- name: Unpack archive
+  command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
 
-  - name: Make Java available for system
-    command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'
+- name: Fix ownership
+  file: state=directory path={{java_name}} owner=root group=root recurse=yes
 
-  - name: Clean up
-    file: state=absent path={{java_archive}}
+- name: Make Java available for system
+  command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'

@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - java
+    - tomcat
+  vars:
+    JAVA_OPTS_additional: -Xmx1G -Xms1G
+    spring_profile: stage

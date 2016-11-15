@@ -1,0 +1,5 @@
+---
+- name: reload nginx
+  become: yes
+  become_method: sudo
+  command: nginx -s reload

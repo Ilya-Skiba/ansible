@@ -1,0 +1,39 @@
+server {
+	server_name {{ graylog_domain }}; 
+	listen 9000 default_server;
+	listen [::]:9000 default_server ipv6only=on;
+
+
+  location /api/
+    {
+        proxy_set_header    Host $http_host;
+        proxy_set_header    X-Forwarded-Host $host;
+        proxy_set_header    X-Forwarded-Server $host;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass          http://graylog:12900/;
+    }
+  location /
+    {
+        proxy_set_header    Host $http_host;
+        proxy_set_header    X-Forwarded-Host $host;
+        proxy_set_header    X-Forwarded-Server $host;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header    X-Graylog-Server-URL http://{{ graylog_domain }}:9000/api;
+        proxy_pass          http://graylog:9000;
+    }
+	
+	
+	
+	error_page 503 @maintenance;
+    
+    location @maintenance {
+        rewrite ^(.*)$ /error503.html break;
+    }
+
+	# redirect server error pages to the static page /50x.html
+	#
+	#error_page 500 502 503 504 /50x.html;
+	location = /50x.html {
+		root /opt/maintenance/html_base/;
+	}
+}

@@ -1,0 +1,50 @@
+---
+- name: NGINX | Installing NGINX repo rpm
+  yum:
+    name: http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+ 
+- name: NGINX | Installing NGINX
+  yum:
+    name: nginx
+    state: latest
+
+- name: Create sites-available
+  command: mkdir -p /etc/nginx/sites-available creates=/etc/nginx/sites-available
+
+- name: Create sites-enabled
+  command: mkdir -p /etc/nginx/sites-enabled creates=/etc/nginx/sites-enabled
+
+- name: Update nginx.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify: reload nginx
+
+- name: NGINX | Starting NGINX
+  service:
+    name: nginx
+    state: started
+
+- name: create nginx configs
+  template: "src={{ item }}.j2 dest=/etc/nginx/sites-available/{{ item }}"
+  with_items: 
+    - ilex
+    - ilex-admin
+    - graylog
+
+- name: enable nginx configs
+  command:  "ln -s /etc/nginx/sites-available/{{item}} /etc/nginx/sites-enabled/{{ item }} creates=/etc/nginx/sites-enabled/{{ item }}"
+  with_items: 
+    - ilex
+    - ilex-admin
+    - graylog
+  notify: reload nginx
+
+- name: wait for nginx to start
+  wait_for: port={{http_port}}
+
+- name: create folders for app
+  command: "mkdir -p {{ item }} creates={{item}}"
+  with_items: 
+    - "/opt/ui/ilex/client"
+    - "/opt/ui/ilex/admin"
+    - "/opt/maintenance"
+    - "/opt/ui/keys"

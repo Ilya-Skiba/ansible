@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - nginx
+  vars:
+    client_domain: cl
+    admin_domain: adm
+    http_port: 80

@@ -1,0 +1,7 @@
+---
+tomcat_download_url: http://ftp.byfly.by/pub/apache.org/tomcat/tomcat-8/v8.5.8/bin/apache-tomcat-8.5.8.tar.gz
+tomcat_download_folder: /opt/dist
+tomcat_unpacked: "{{download_folder}}/apache-tomcat-8.5.8"
+tomcat_name: "/opt/tomcat-ansible"
+tomcat_archive: "{{download_folder}}/apache-tomcat-8.5.8.tar.gz"
+http_port: 8080

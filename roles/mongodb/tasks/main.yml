@@ -5,13 +5,13 @@
     state=directory
   tags: [mongodb]
 
-- name: Container is running
-  docker:
-    name: mongodb
-    image: mongo:3
-    ports:
-      - 27017:27017
-    volumes:
-      - /data/mongodb:/data/db
-    restart_policy: unless-stopped
-  tags: [mongodb]
+- name: Add repository
+  yum_repository:
+    name: mongodb-org-3.2
+    description: MongoDB Repository
+    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
+    gpgcheck: yes
+    gpgkey: https://www.mongodb.org/static/pgp/server-3.2.asc
+
+- name: Install package
+  yum: name=mongodb-org state=present

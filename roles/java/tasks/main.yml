@@ -9,7 +9,10 @@
     headers: 'Cookie: oraclelicense=accept-securebackup-cookie'
 
 - name: Unpack archive
-  command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
+  command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_extracted}}"
+
+- name: move java to right folder
+  command: "mv -T {{java_extracted}} {{java_name}} creates={{java_name}}"
 
 - name: Fix ownership
   file: state=directory path={{java_name}} owner=root group=root recurse=yes

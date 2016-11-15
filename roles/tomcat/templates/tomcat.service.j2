@@ -1,0 +1,26 @@
+# Systemd unit file for tomcat
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=syslog.target network.target
+
+[Service]
+Type=forking
+Restart=always
+
+Environment=CATALINA_PID={{tomcat_name}}/temp/tomcat.pid
+Environment=CATALINA_HOME={{tomcat_name}}
+Environment=CATALINA_BASE={{tomcat_name}}
+Environment='CATALINA_OPTS={{ JAVA_OPTS_additional }} -server -XX:+UseG1GC -XX:G1HeapRegionSize=4 -XX:ParallelGCThreads=8 -XX:ConcGCThreads=2'
+Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+Environment='JAVA_HOME={{ java_name }}'
+
+ExecStart={{tomcat_name}}/bin/startup.sh
+ExecStop=/bin/kill -15 $MAINPID
+
+User=tomcat
+Group=tomcat
+LimitNOFILE=900000
+LimitNPROC=900000
+
+[Install]
+WantedBy=multi-user.target

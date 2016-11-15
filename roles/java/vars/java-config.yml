@@ -1,5 +1,6 @@
 ---
 download_url: http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
 download_folder: /opt
-java_name: "{{download_folder}}/jdk1.8.0_112_ansiblecheck"
+java_name: "{{download_folder}}/jdk_ansible"
+java_extracted: "{{download_folder}}/jdk1.8.0_112"
 java_archive: "{{download_folder}}/jdk-8u5-linux-x64.tar.gz"

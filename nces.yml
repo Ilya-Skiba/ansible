@@ -1,0 +1,27 @@
+# file nces servers
+[elasticClient]
+elastic-client-1 ansible_host=192.168.0.2 ansible_user=root ansible_ssh_pass=C0nsult2015
+elastic-client-2 ansible_host=192.168.0.3 ansible_user=root ansible_ssh_pass=C0nsult2015
+
+[elasticAdmin]
+elastic-admin-1 ansible_host=192.168.0.5 ansible_user=root ansible_ssh_pass=C0nsult2015
+elastic-admin-2 ansible_host=192.168.0.6 ansible_user=root ansible_ssh_pass=C0nsult2015
+
+[nginx]
+nginx ansible_host=192.168.0.10 ansible_user=root ansible_ssh_pass=C0nsult2015
+
+[tomcatClient]
+tomcat-client ansible_host=192.168.0.4 ansible_user=root ansible_ssh_pass=C0nsult2015
+
+[tomcatAdmin]
+tomcat-admin ansible_host=192.168.0.11 ansible_user=root ansible_ssh_pass=C0nsult2015
+
+[graylog]
+graylog ansible_host=192.168.0.8 ansible_user=root ansible_ssh_pass=C0nsult2015
+
+
+[mongodb]
+jcr ansible_host=192.168.0.7 ansible_user=root ansible_ssh_pass=C0nsult2015
+
+[db]
+db ansible_host=192.168.0.9 ansible_user=root ansible_ssh_pass=C0nsult2015

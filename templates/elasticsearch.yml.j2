@@ -6,10 +6,10 @@ discovery.zen.ping.unicast.hosts:
  - {{ host }}
 {% endfor %}
 
-node.name: {{ansible_hostname}}
+node.name: {{inventory_hostname}}
 script.indexed: 'on'
 script.inline: 'on'
-network.host: elastic-client-1
+node.name: {{inventory_hostname}}
 
 
 #################################### Paths ####################################

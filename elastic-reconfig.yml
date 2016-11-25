@@ -3,11 +3,11 @@
 - hosts: elasticClient
   tasks:
   - name: Copy Configuration File
-      template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/node1/elasticsearch.yml owner=elasticsearch group=elasticsearch mode=0644 force=yes
-      register: config_updated
-      notify: restart elasticsearch
+    template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/node1/elasticsearch.yml owner=elasticsearch group=elasticsearch mode=0644 force=yes
+    register: config_updated
+    notify: restart elasticsearch
       
   handlers:
   - name: restart elasticsearch
-  service: name=node1_elasticsearch state=restarted enabled=yes
-  when: es_restart_on_change and es_start_service and not elasticsearch_started.changed and ((plugin_installed is defined and plugin_installed.changed) or (config_updated is defined and config_updated.changed) or (xpack_state.changed) or (elasticsearch_install_from_repo.changed or elasticsearch_install_from_package.changed))
+    service: name=node1_elasticsearch state=restarted enabled=yes
+    when: es_restart_on_change and es_start_service and not elasticsearch_started.changed and ((plugin_installed is defined and plugin_installed.changed) or (config_updated is defined and config_updated.changed) or (xpack_state.changed) or (elasticsearch_install_from_repo.changed or elasticsearch_install_from_package.changed))

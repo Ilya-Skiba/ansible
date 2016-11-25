@@ -1,0 +1,24 @@
+cluster.name: consult
+discovery.zen.ping.multicast.enabled: false
+
+discovery.zen.ping.unicast.hosts: 
+{% for host in groups['elasticClient'] %}
+ - {{ host }}
+{% endfor %}
+
+node.name: {{ansible_hostname}}
+script.indexed: 'on'
+script.inline: 'on'
+network.host: elastic-client-1
+
+
+#################################### Paths ####################################
+
+# Path to directory containing configuration (this file and logging.yml):
+path.conf: /etc/elasticsearch/node1
+
+path.data: /var/lib/elasticsearch/localhost-node1
+
+path.work: /tmp/elasticsearch/localhost-node1
+
+path.logs: /var/log/elasticsearch/localhost-node1

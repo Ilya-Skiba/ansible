@@ -27,6 +27,7 @@
   roles:
     - common
     - mongodb
+    - elasticsearch
     - java
     - role: 'Graylog2.graylog-ansible-role'
       tags: graylog

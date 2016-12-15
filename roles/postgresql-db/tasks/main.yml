@@ -16,6 +16,7 @@
 - name: Create database user
   become: yes
   become_user: postgres
+  become_method: su
   vars:
     ansible_ssh_pipelining: true
   postgresql_user:
@@ -27,6 +28,7 @@
 - name: create db
   become: yes
   become_user: postgres
+  become_method: su
   vars:
     ansible_ssh_pipelining: true
   # Create a new database with name "consult"

@@ -10,6 +10,7 @@
     name={{ item }}
     state=present
     update_cache=yes
+    validate_certs=no
   with_items:
     - htop
     - tree

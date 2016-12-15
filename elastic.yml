@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: elasticClient
   become: yes
   become_method: sudo
   roles:

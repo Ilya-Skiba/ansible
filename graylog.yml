@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: graylog
   become: yes
   become_method: sudo
   roles:

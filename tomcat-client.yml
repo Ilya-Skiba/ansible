@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: tomcatClient
   become: yes
   become_method: sudo
   roles:
@@ -7,5 +7,5 @@
     - java
     - tomcat
   vars:
-    JAVA_OPTS_additional: -Xmx1G -Xms1G
+    JAVA_OPTS_additional: -Xmx6G -Xms4G
     spring_profile: stage

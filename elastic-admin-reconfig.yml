@@ -1,0 +1,12 @@
+# Update elastic config file to include new items
+---
+- hosts: elasticAdmin
+  tasks:
+  - name: Copy Configuration File
+    template: src=elasticsearch-admin.yml.j2 dest=/etc/elasticsearch/node1/elasticsearch.yml owner=elasticsearch group=elasticsearch mode=0644 force=yes
+    register: config_updated
+    notify: restart elasticsearch
+      
+  handlers:
+  - name: restart elasticsearch
+    service: name=node1_elasticsearch state=restarted enabled=yes

@@ -1,0 +1,24 @@
+cluster.name: consult
+discovery.zen.ping.multicast.enabled: false
+
+discovery.zen.ping.unicast.hosts: 
+{% for host in groups['elasticAdmin'] %}
+ - {{ host }}
+{% endfor %}
+
+node.name: {{inventory_hostname}}
+script.indexed: 'on'
+script.inline: 'on'
+network.host: {{inventory_hostname}}
+
+
+#################################### Paths ####################################
+
+# Path to directory containing configuration (this file and logging.yml):
+path.conf: /etc/elasticsearch/node1
+
+path.data: /var/lib/elasticsearch/localhost-node1
+
+path.work: /tmp/elasticsearch/localhost-node1
+
+path.logs: /var/log/elasticsearch/localhost-node1

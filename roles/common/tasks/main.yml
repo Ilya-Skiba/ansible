@@ -4,6 +4,8 @@
     name: epel
     description: EPEL YUM repo
     baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    enabled: yes
+    gpgcheck: no
 
 - name: Install desired packages
   yum: >
